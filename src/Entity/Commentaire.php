@@ -24,6 +24,9 @@ class Commentaire
     #[ORM\Column(length: 255)]
     private ?string $texte = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $note = null;
+
     public function __construct()
     {
         $this->id_projet = new ArrayCollection();
@@ -103,6 +106,18 @@ class Commentaire
     public function setTexte(string $texte): self
     {
         $this->texte = $texte;
+
+        return $this;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(?int $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }
