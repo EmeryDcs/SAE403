@@ -34,13 +34,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_user')]
-    private ?Projet $projets = null;
-
-    #[ORM\ManyToOne(inversedBy: 'id_user')]
     private ?Note $notes = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_user')]
     private ?Commentaire $commentaires = null;
+
+    #[ORM\ManyToOne(inversedBy: 'utilisateur')]
+    private ?Projet $projets = null;
 
     public function getId(): ?int
     {
@@ -136,18 +136,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProjets(): ?Projet
-    {
-        return $this->projets;
-    }
-
-    public function setProjets(?Projet $projets): self
-    {
-        $this->projets = $projets;
-
-        return $this;
-    }
-
     public function getNotes(): ?Note
     {
         return $this->notes;
@@ -168,6 +156,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCommentaires(?Commentaire $commentaires): self
     {
         $this->commentaires = $commentaires;
+
+        return $this;
+    }
+
+    public function getProjets(): ?Projet
+    {
+        return $this->projets;
+    }
+
+    public function setProjets(?Projet $projets): self
+    {
+        $this->projets = $projets;
 
         return $this;
     }

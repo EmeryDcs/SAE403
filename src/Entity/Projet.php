@@ -25,12 +25,6 @@ class Projet
     private ?int $annee = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $competences = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $ac = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $acquis = null;
 
     #[ORM\Column(length: 255)]
@@ -45,18 +39,26 @@ class Projet
     #[ORM\Column(nullable: true)]
     private ?int $note = null;
 
-    #[ORM\OneToMany(mappedBy: 'projets', targetEntity: Utilisateur::class)]
-    private Collection $id_user;
-
     #[ORM\ManyToOne(inversedBy: 'id_projet')]
     private ?Note $notes = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_projet')]
     private ?Commentaire $commentaires = null;
 
+    #[ORM\ManyToMany(targetEntity: Competence::class)]
+    private Collection $competences;
+
+    #[ORM\ManyToMany(targetEntity: AC::class)]
+    private Collection $ac;
+
+    #[ORM\OneToMany(mappedBy: 'projets', targetEntity: Utilisateur::class)]
+    private Collection $utilisateur;
+
     public function __construct()
     {
-        $this->id_user = new ArrayCollection();
+        $this->competences = new ArrayCollection();
+        $this->ac = new ArrayCollection();
+        $this->utilisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,30 +98,6 @@ class Projet
     public function setAnnee(int $annee): self
     {
         $this->annee = $annee;
-
-        return $this;
-    }
-
-    public function getCompetences(): ?string
-    {
-        return $this->competences;
-    }
-
-    public function setCompetences(string $competences): self
-    {
-        $this->competences = $competences;
-
-        return $this;
-    }
-
-    public function getAc(): ?string
-    {
-        return $this->ac;
-    }
-
-    public function setAc(string $ac): self
-    {
-        $this->ac = $ac;
 
         return $this;
     }
@@ -184,36 +162,6 @@ class Projet
         return $this;
     }
 
-    /**
-     * @return Collection<int, Utilisateur>
-     */
-    public function getIdUser(): Collection
-    {
-        return $this->id_user;
-    }
-
-    public function addIdUser(Utilisateur $idUser): self
-    {
-        if (!$this->id_user->contains($idUser)) {
-            $this->id_user->add($idUser);
-            $idUser->setProjets($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdUser(Utilisateur $idUser): self
-    {
-        if ($this->id_user->removeElement($idUser)) {
-            // set the owning side to null (unless already changed)
-            if ($idUser->getProjets() === $this) {
-                $idUser->setProjets(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getNotes(): ?Note
     {
         return $this->notes;
@@ -234,6 +182,84 @@ class Projet
     public function setCommentaires(?Commentaire $commentaires): self
     {
         $this->commentaires = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Competence>
+     */
+    public function getCompetences(): Collection
+    {
+        return $this->competences;
+    }
+
+    public function addCompetence(Competence $competence): self
+    {
+        if (!$this->competences->contains($competence)) {
+            $this->competences->add($competence);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetence(Competence $competence): self
+    {
+        $this->competences->removeElement($competence);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AC>
+     */
+    public function getAc(): Collection
+    {
+        return $this->ac;
+    }
+
+    public function addAc(AC $ac): self
+    {
+        if (!$this->ac->contains($ac)) {
+            $this->ac->add($ac);
+        }
+
+        return $this;
+    }
+
+    public function removeAc(AC $ac): self
+    {
+        $this->ac->removeElement($ac);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Utilisateur>
+     */
+    public function getUtilisateur(): Collection
+    {
+        return $this->utilisateur;
+    }
+
+    public function addUtilisateur(Utilisateur $utilisateur): self
+    {
+        if (!$this->utilisateur->contains($utilisateur)) {
+            $this->utilisateur->add($utilisateur);
+            $utilisateur->setProjets($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUtilisateur(Utilisateur $utilisateur): self
+    {
+        if ($this->utilisateur->removeElement($utilisateur)) {
+            // set the owning side to null (unless already changed)
+            if ($utilisateur->getProjets() === $this) {
+                $utilisateur->setProjets(null);
+            }
+        }
 
         return $this;
     }

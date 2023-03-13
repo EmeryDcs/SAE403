@@ -1,3 +1,11 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+addprojet:
+    path: /addprojet
+    controller: App\Controller\ProjetController::formProjet
+
+portfolio:
+    path: /portfolio
+    controller: App\Controller\PortfolioController::accueil
