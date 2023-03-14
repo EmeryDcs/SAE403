@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Projet;
+use App\Entity\Commentaire;
 use App\Form\ProjetFormType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 

@@ -15,7 +15,13 @@
         {% endif %}
         </p>  
 
-        <img src="{{asset('img/'~projet.photo)}}">
+        <img src="{{asset('img/'~projet.photo)}}"/>
+
+        <div>
+        {% if projet.video %}
+            {{video|raw}}
+        {% endif %}
+        </div>
 
         <ul>
             {% for domaine in domaines[projet.id] %}
@@ -33,4 +39,6 @@
             {% endfor %}
         </ul>
     {% endfor %}
+
+    {{form(formCommentaire)}}
 <body>
