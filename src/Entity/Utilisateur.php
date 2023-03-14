@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,8 +43,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'id_user')]
     private ?Commentaire $commentaires = null;
 
-    #[ORM\ManyToOne(inversedBy: 'utilisateur')]
-    private ?Projet $projets = null;
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Projet::class)]
+    private Collection $projets;
+
+    public function __construct()
+    {
+        $this->projets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -162,14 +169,32 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProjets(): ?Projet
+    /**
+     * @return Collection<int, Projet>
+     */
+    public function getProjets(): Collection
     {
         return $this->projets;
     }
 
-    public function setProjets(?Projet $projets): self
+    public function addProjet(Projet $projet): self
     {
-        $this->projets = $projets;
+        if (!$this->projets->contains($projet)) {
+            $this->projets->add($projet);
+            $projet->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjet(Projet $projet): self
+    {
+        if ($this->projets->removeElement($projet)) {
+            // set the owning side to null (unless already changed)
+            if ($projet->getUtilisateur() === $this) {
+                $projet->setUtilisateur(null);
+            }
+        }
 
         return $this;
     }

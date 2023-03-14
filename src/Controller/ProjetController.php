@@ -18,6 +18,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProjetController extends AbstractController
 {
     public function formProjet(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $user = $this->getUser();
+        
         $projet = new Projet(); //On crée un objet image qui prendra les valeurs du formulaire
         $form = $this->createForm(ProjetFormType::class, $projet);
         $form->handleRequest($request);
@@ -46,6 +49,7 @@ class ProjetController extends AbstractController
             $domaine = $form->get('domaine')->getData();
             $domaine_string = serialize($domaine);
             $projet->setDomaine($domaine_string);
+            $projet->setUtilisateur($user);
 
             $em = $doctrine->getManager();
             $em->persist($projet);

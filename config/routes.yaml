@@ -32,9 +32,13 @@ addprojet:
     path: /addprojet
     controller: App\Controller\ProjetController::formProjet
 
-portfolio:
+portfolioall:
     path: /portfolio
     controller: App\Controller\PortfolioController::accueil
+
+portfoliosingle:
+    path: /portfolio/{id}
+    controller: App\Controller\PortfolioController::afficheProjetUtilisateur
 
 admin:
     path: /admin

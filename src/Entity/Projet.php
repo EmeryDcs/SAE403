@@ -51,14 +51,14 @@ class Projet
     #[ORM\ManyToMany(targetEntity: AC::class)]
     private Collection $ac;
 
-    #[ORM\OneToMany(mappedBy: 'projets', targetEntity: Utilisateur::class)]
-    private Collection $utilisateur;
+    #[ORM\ManyToOne(inversedBy: 'projets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $utilisateur = null;
 
     public function __construct()
     {
         $this->competences = new ArrayCollection();
         $this->ac = new ArrayCollection();
-        $this->utilisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,32 +234,14 @@ class Projet
         return $this;
     }
 
-    /**
-     * @return Collection<int, Utilisateur>
-     */
-    public function getUtilisateur(): Collection
+    public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
     }
 
-    public function addUtilisateur(Utilisateur $utilisateur): self
+    public function setUtilisateur(?Utilisateur $utilisateur): self
     {
-        if (!$this->utilisateur->contains($utilisateur)) {
-            $this->utilisateur->add($utilisateur);
-            $utilisateur->setProjets($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUtilisateur(Utilisateur $utilisateur): self
-    {
-        if ($this->utilisateur->removeElement($utilisateur)) {
-            // set the owning side to null (unless already changed)
-            if ($utilisateur->getProjets() === $this) {
-                $utilisateur->setProjets(null);
-            }
-        }
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
