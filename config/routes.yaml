@@ -1,3 +1,33 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
+# controllers:
+#     resource: ../src/Controller/
+#     type: attribute
+
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+app_login_check:
+    path: /login_check
+
+app_logout:
+    path: /logout
+
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+
+etudiant:
+    path: /etudiant
+    controller: App\Controller\ProfilController::etudiant
+
+accueil:
+    path: /accueil
+    controller: App\Controller\HomeController::accueil
+
+prof:
+    path: /prof
+    controller: App\Controller\ProfilController::prof
+
+admin:
+    path: /admin
+    controller: App\Controller\ProfilController::admin
