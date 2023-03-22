@@ -39,6 +39,8 @@
             {% endfor %}
         </ul>
 
-        {{form(formCommentaire[projet.id])}}
+        {% if formCommentaire is defined %}
+            {{form(formCommentaire[projet.id])}}
+        {% endif %}
     {% endfor %}
 <body>

@@ -31,25 +31,31 @@ class PortfolioController extends AbstractController
             $domaines[$projet->getId()] = unserialize($projet->getDomaine());
 
             if ($this->getUser() && in_array("ROLE_PROF",$this->getUser()->getRoles())){
-                $commentaire = new Commentaire();
-                $formCommentaire = $this->createForm(CommentaireType::class, $commentaire);
-                $formCommentaire->handleRequest($request);
+                //Je stocke mon commentaire dans un tableau avec pour clé l'id du projet
+                $commentaires[$projet->getId()] = new Commentaire();
 
+                //Je crée mon formulaire lié
+                $formCommentaire = $this->createForm(CommentaireType::class, $commentaires[$projet->getId()]);
+                $formCommentaire->get('projet')->setData($projet->getId());
+
+                //Je stocke ce formulaire dans un tableau associatif avec l'id du projet en clé
                 $tabFormCommentaire[$projet->getId()] = $formCommentaire;
-                $tabIdProjet[$projet->getId()] = $projet->getId();
+                $tabFormCommentaire[$projet->getId()]->handleRequest($request);
 
-                $commentaires[$projet->getId()] = $formCommentaire->createView();
+                //Je stocke la vue de tous mes formulaires pour les afficher à la fin
+                $vuesCommentaires[$projet->getId()] = $tabFormCommentaire[$projet->getId()]->createView();
         
                 if ($tabFormCommentaire[$projet->getId()]->isSubmitted() && $tabFormCommentaire[$projet->getId()]->isValid()){
                     $user=$this->getUser();
-                    $commentaire->setUtilisateur($user);
+                    $commentaires[$projet->getId()]->setUtilisateur($user);
 
-                    $projetCommentaire = $repository->findOneBy(['id'=>$tabIdProjet[$projet->getId()]]);
-
-                    $commentaire->setProjet($projetCommentaire);
+                    //Je stocke le projet courant dans mon commentaire
+                    $commentaires[$projet->getId()]->setProjet(
+                        $repository->findOneBy(['id'=>$formCommentaire->get('projet')->getData()])
+                    );
         
                     $em = $doctrine->getManager();
-                    $em->persist($commentaire);
+                    $em->persist( $commentaires[$projet->getId()]);
                     $em->flush();
 
                     return $this->redirectToRoute('accueil');
@@ -79,7 +85,7 @@ class PortfolioController extends AbstractController
                     'ac'=>$ac,
                     'domaines'=>$domaines,
                     'video'=>$embed_html,
-                    'formCommentaire'=>$commentaires,
+                    'formCommentaire'=>$vuesCommentaires,
                 ]
             );
         } else {
