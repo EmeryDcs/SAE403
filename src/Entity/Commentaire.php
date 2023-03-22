@@ -15,87 +15,23 @@ class Commentaire
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'commentaires', targetEntity: Projet::class)]
-    private Collection $id_projet;
-
-    #[ORM\OneToMany(mappedBy: 'commentaires', targetEntity: Utilisateur::class)]
-    private Collection $id_user;
-
     #[ORM\Column(length: 255)]
     private ?string $texte = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $note = null;
 
-    public function __construct()
-    {
-        $this->id_projet = new ArrayCollection();
-        $this->id_user = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $utilisateur = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Projet $projet = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, Projet>
-     */
-    public function getIdProjet(): Collection
-    {
-        return $this->id_projet;
-    }
-
-    public function addIdProjet(Projet $idProjet): self
-    {
-        if (!$this->id_projet->contains($idProjet)) {
-            $this->id_projet->add($idProjet);
-            $idProjet->setCommentaires($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdProjet(Projet $idProjet): self
-    {
-        if ($this->id_projet->removeElement($idProjet)) {
-            // set the owning side to null (unless already changed)
-            if ($idProjet->getCommentaires() === $this) {
-                $idProjet->setCommentaires(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Utilisateur>
-     */
-    public function getIdUser(): Collection
-    {
-        return $this->id_user;
-    }
-
-    public function addIdUser(Utilisateur $idUser): self
-    {
-        if (!$this->id_user->contains($idUser)) {
-            $this->id_user->add($idUser);
-            $idUser->setCommentaires($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdUser(Utilisateur $idUser): self
-    {
-        if ($this->id_user->removeElement($idUser)) {
-            // set the owning side to null (unless already changed)
-            if ($idUser->getCommentaires() === $this) {
-                $idUser->setCommentaires(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getTexte(): ?string
@@ -118,6 +54,30 @@ class Commentaire
     public function setNote(?int $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getProjet(): ?Projet
+    {
+        return $this->projet;
+    }
+
+    public function setProjet(?Projet $projet): self
+    {
+        $this->projet = $projet;
 
         return $this;
     }

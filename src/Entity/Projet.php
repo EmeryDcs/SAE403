@@ -42,9 +42,6 @@ class Projet
     #[ORM\ManyToOne(inversedBy: 'id_projet')]
     private ?Note $notes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'id_projet')]
-    private ?Commentaire $commentaires = null;
-
     #[ORM\ManyToMany(targetEntity: Competence::class)]
     private Collection $competences;
 
@@ -55,10 +52,14 @@ class Projet
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
+    #[ORM\OneToMany(mappedBy: 'projet', targetEntity: Commentaire::class, orphanRemoval: true)]
+    private Collection $commentaires;
+
     public function __construct()
     {
         $this->competences = new ArrayCollection();
         $this->ac = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,18 +175,6 @@ class Projet
         return $this;
     }
 
-    public function getCommentaires(): ?Commentaire
-    {
-        return $this->commentaires;
-    }
-
-    public function setCommentaires(?Commentaire $commentaires): self
-    {
-        $this->commentaires = $commentaires;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Competence>
      */
@@ -242,6 +231,36 @@ class Projet
     public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProjet() === $this) {
+                $commentaire->setProjet(null);
+            }
+        }
 
         return $this;
     }

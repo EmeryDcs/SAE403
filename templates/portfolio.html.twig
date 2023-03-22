@@ -38,7 +38,7 @@
                 <li>{{ apprentissage.numero }}</li>
             {% endfor %}
         </ul>
-    {% endfor %}
 
-    {# {{form(formCommentaire)}} #}
+        {{form(formCommentaire[projet.id])}}
+    {% endfor %}
 <body>

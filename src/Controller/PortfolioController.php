@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Projet;
 use App\Entity\Commentaire;
+use App\Form\CommentaireType;
 
 class PortfolioController extends AbstractController
 {
@@ -21,10 +22,39 @@ class PortfolioController extends AbstractController
         $ac = [];
         //On deJSON la variable domaine et on envoie les données correspondantes
         $domaines = [];
+        //commentaires
+        $commentaires = [];
+        $tabFormCommentaire = [];
         foreach ($projets as $projet){
             $competences[$projet->getId()] = $projet->getCompetences();
             $ac[$projet->getId()] = $projet->getAc();
             $domaines[$projet->getId()] = unserialize($projet->getDomaine());
+
+            if ($this->getUser() && in_array("ROLE_PROF",$this->getUser()->getRoles())){
+                $commentaire = new Commentaire();
+                $formCommentaire = $this->createForm(CommentaireType::class, $commentaire);
+                $formCommentaire->handleRequest($request);
+
+                $tabFormCommentaire[$projet->getId()] = $formCommentaire;
+                $tabIdProjet[$projet->getId()] = $projet->getId();
+
+                $commentaires[$projet->getId()] = $formCommentaire->createView();
+        
+                if ($tabFormCommentaire[$projet->getId()]->isSubmitted() && $tabFormCommentaire[$projet->getId()]->isValid()){
+                    $user=$this->getUser();
+                    $commentaire->setUtilisateur($user);
+
+                    $projetCommentaire = $repository->findOneBy(['id'=>$tabIdProjet[$projet->getId()]]);
+
+                    $commentaire->setProjet($projetCommentaire);
+        
+                    $em = $doctrine->getManager();
+                    $em->persist($commentaire);
+                    $em->flush();
+
+                    return $this->redirectToRoute('accueil');
+                }
+            }
         }
 
         //On change le lien d'une vidéo Youtube en une balise HTML :
@@ -40,17 +70,30 @@ class PortfolioController extends AbstractController
         // Construire la balise HTML d'intégration
         $embed_html = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $video_id . '" frameborder="0" allowfullscreen></iframe>';
 
-
-        return $this->render(
-            'portfolio.html.twig',
-            [
-                'projets'=>$projets,
-                'competences'=>$competences,
-                'ac'=>$ac,
-                'domaines'=>$domaines,
-                'video'=>$embed_html,
-            ]
-        );
+        if (isset($formCommentaire)){
+            return $this->render(
+                'portfolio.html.twig',
+                [
+                    'projets'=>$projets,
+                    'competences'=>$competences,
+                    'ac'=>$ac,
+                    'domaines'=>$domaines,
+                    'video'=>$embed_html,
+                    'formCommentaire'=>$commentaires,
+                ]
+            );
+        } else {
+            return $this->render(
+                'portfolio.html.twig',
+                [
+                    'projets'=>$projets,
+                    'competences'=>$competences,
+                    'ac'=>$ac,
+                    'domaines'=>$domaines,
+                    'video'=>$embed_html,
+                ]
+            );
+        }
     }   
 
     public function afficheProjetUtilisateur(ManagerRegistry $doctrine, Request $request, $id){
