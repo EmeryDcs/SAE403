@@ -1,46 +1,61 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Utilisateur;
+
 
 class ProfilController extends AbstractController
 {
-    // public function etudiant(TokenInterface $token): Response
-    // {
-        
-    //     $user = $token->getUser();
+    
+    // public function etudiant(): Response {
+ 
+    //     $user = $this->getUser();
+    
     //     $nom = $user->getNom();
     //     $prenom = $user->getPrenom();
     //     $email = $user-> getEmail();
-    //     return $this->render('profil/profil.html.twig', [
+    //     return $this->render('profil/etudiant.html.twig', [
     //         'nom' => $nom,
     //         'prenom' => $prenom,
     //         'email' => $email,
     //     ]); 
-                
     // }
 
-    public function etudiant(): Response {
- 
+
+    //     return new JsonResponse($data);
+   
+
+    public function etudiant(ManagerRegistry $doctrine, Request $request): JsonResponse
+    {
+        // $repository = $this->getDoctrine()->getRepository(Utilisateur::class);
+        // $user = $repository->findBy(array('id' => $user->getId()));
+        // $user = $repository->findAll();
+
         $user = $this->getUser();
-    
-        $nom = $user->getNom();
-        $prenom = $user->getPrenom();
-        $email = $user-> getEmail();
-        return $this->render('profil/etudiant.html.twig', [
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'email' => $email,
-        ]); 
-        
+        // $data = [];
+
+        $data = [
+            'nom' => $user->getNom(),
+            'prenom' => $user->getPrenom(),
+            'email' => $user->getEmail()
+        ];
+
+        return new JsonResponse($data);
+
+        // foreach ($users as $user) {
+        //     $data[] = [
+        //         'nom' => $user->getNom(),
+        //         'prenom' => $user->getPrenom(),
+        //         'email' => $user->getEmail()
+        //     ];
+        // }
     }
 
 

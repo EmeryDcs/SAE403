@@ -6,8 +6,8 @@ app_login:
     path: /login
     controller: App\Controller\SecurityController::login
 
-app_login_check:
-    path: /login_check
+api_login_check:
+    path: /api/login_check
 
 app_logout:
     path: /logout
@@ -16,13 +16,15 @@ app_register:
     path: /register
     controller: App\Controller\RegistrationController::register
 
-etudiant:
-    path: /etudiant
-    controller: App\Controller\ProfilController::etudiant
 
-accueil:
-    path: /accueil
-    controller: App\Controller\HomeController::accueil
+etudiant:
+    path: /api/etudiant
+    controller: App\Controller\ProfilController::etudiant
+    methods: GET
+
+# accueil:
+#     path: /accueil
+#     controller: App\Controller\HomeController::accueil
 
 prof:
     path: /prof
@@ -31,3 +33,8 @@ prof:
 admin:
     path: /admin
     controller: App\Controller\ProfilController::admin
+
+app.swagger:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
