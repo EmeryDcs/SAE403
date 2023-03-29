@@ -22,6 +22,11 @@ etudiant:
     controller: App\Controller\ProfilController::etudiant
     methods: GET
 
+competences:
+    path: /api/competences
+    controller: App\Controller\CompetencesController::competences
+    methods: GET
+
 # accueil:
 #     path: /accueil
 #     controller: App\Controller\HomeController::accueil
