@@ -1,0 +1,62 @@
+/* ---------- INIT */
+/* 
+
+font-weight: 100; ----- Thin (Hairline)
+font-weight: 200; ----- Extra Light (Ultra Light)
+font-weight: 300; ----- Light
+font-weight: 400; ----- Normal
+font-weight: 500; ----- Medium
+font-weight: 600; ----- Semi Bold
+font-weight: 700; ----- Bold
+font-weight: 800; ----- Extra Bold (Ultra Bold)
+font-weight: 900; ----- Black (Heavy)
+font-weight: 950; ----- Extra Black (Ultra Black)
+
+*/
+/* ---------- BALISES HTML COMMUNES */
+* {
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- PAGES - structure */
+.pagePortfolio header {
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.pagePortfolio header img {
+  height: 100%;
+  margin: 5px 40px 0 30px;
+}
+
+.pagePortfolio header nav {
+  display: none;
+}
+
+.pagePortfolio header #menuMobile {
+  height: 8vh;
+}
+
+.pagePortfolio header #croixMenuMobile {
+  display: none;
+  height: 8vh;
+}
+
+.pagePortfolio .projets {
+  width: 80vw;
+  text-align: center;
+  margin: auto;
+}
+
+.pagePortfolio .projets img {
+  width: 100%;
+}
+
+/*# sourceMappingURL=style.css.map */

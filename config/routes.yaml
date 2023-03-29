@@ -30,6 +30,18 @@ prof:
     path: /prof
     controller: App\Controller\ProfilController::prof
 
+addprojet:
+    path: /addprojet
+    controller: App\Controller\ProjetController::formProjet
+
+portfolioall:
+    path: /portfolio
+    controller: App\Controller\PortfolioController::accueil
+
+portfoliosingle:
+    path: /portfolio/{id}
+    controller: App\Controller\PortfolioController::afficheProjetUtilisateur
+
 admin:
     path: /admin
     controller: App\Controller\ProfilController::admin

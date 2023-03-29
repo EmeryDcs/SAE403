@@ -14,7 +14,7 @@ class AC
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $numero = null;
+    private ?string $numero = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -24,12 +24,12 @@ class AC
         return $this->id;
     }
 
-    public function getNumero(): ?int
+    public function getNumero(): ?string
     {
         return $this->numero;
     }
 
-    public function setNumero(int $numero): self
+    public function setNumero(string $numero): self
     {
         $this->numero = $numero;
 

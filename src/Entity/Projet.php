@@ -25,12 +25,6 @@ class Projet
     private ?int $annee = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $competences = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $ac = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $acquis = null;
 
     #[ORM\Column(length: 255)]
@@ -45,18 +39,27 @@ class Projet
     #[ORM\Column(nullable: true)]
     private ?int $note = null;
 
-    #[ORM\OneToMany(mappedBy: 'projets', targetEntity: Utilisateur::class)]
-    private Collection $id_user;
-
     #[ORM\ManyToOne(inversedBy: 'id_projet')]
     private ?Note $notes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'id_projet')]
-    private ?Commentaire $commentaires = null;
+    #[ORM\ManyToMany(targetEntity: Competence::class)]
+    private Collection $competences;
+
+    #[ORM\ManyToMany(targetEntity: AC::class)]
+    private Collection $ac;
+
+    #[ORM\ManyToOne(inversedBy: 'projets')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Utilisateur $utilisateur = null;
+
+    #[ORM\OneToMany(mappedBy: 'projet', targetEntity: Commentaire::class, orphanRemoval: true)]
+    private Collection $commentaires;
 
     public function __construct()
     {
-        $this->id_user = new ArrayCollection();
+        $this->competences = new ArrayCollection();
+        $this->ac = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,30 +99,6 @@ class Projet
     public function setAnnee(int $annee): self
     {
         $this->annee = $annee;
-
-        return $this;
-    }
-
-    public function getCompetences(): ?string
-    {
-        return $this->competences;
-    }
-
-    public function setCompetences(string $competences): self
-    {
-        $this->competences = $competences;
-
-        return $this;
-    }
-
-    public function getAc(): ?string
-    {
-        return $this->ac;
-    }
-
-    public function setAc(string $ac): self
-    {
-        $this->ac = $ac;
 
         return $this;
     }
@@ -184,36 +163,6 @@ class Projet
         return $this;
     }
 
-    /**
-     * @return Collection<int, Utilisateur>
-     */
-    public function getIdUser(): Collection
-    {
-        return $this->id_user;
-    }
-
-    public function addIdUser(Utilisateur $idUser): self
-    {
-        if (!$this->id_user->contains($idUser)) {
-            $this->id_user->add($idUser);
-            $idUser->setProjets($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdUser(Utilisateur $idUser): self
-    {
-        if ($this->id_user->removeElement($idUser)) {
-            // set the owning side to null (unless already changed)
-            if ($idUser->getProjets() === $this) {
-                $idUser->setProjets(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getNotes(): ?Note
     {
         return $this->notes;
@@ -226,14 +175,92 @@ class Projet
         return $this;
     }
 
-    public function getCommentaires(): ?Commentaire
+    /**
+     * @return Collection<int, Competence>
+     */
+    public function getCompetences(): Collection
+    {
+        return $this->competences;
+    }
+
+    public function addCompetence(Competence $competence): self
+    {
+        if (!$this->competences->contains($competence)) {
+            $this->competences->add($competence);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetence(Competence $competence): self
+    {
+        $this->competences->removeElement($competence);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AC>
+     */
+    public function getAc(): Collection
+    {
+        return $this->ac;
+    }
+
+    public function addAc(AC $ac): self
+    {
+        if (!$this->ac->contains($ac)) {
+            $this->ac->add($ac);
+        }
+
+        return $this;
+    }
+
+    public function removeAc(AC $ac): self
+    {
+        $this->ac->removeElement($ac);
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
     {
         return $this->commentaires;
     }
 
-    public function setCommentaires(?Commentaire $commentaires): self
+    public function addCommentaire(Commentaire $commentaire): self
     {
-        $this->commentaires = $commentaires;
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProjet() === $this) {
+                $commentaire->setProjet(null);
+            }
+        }
 
         return $this;
     }

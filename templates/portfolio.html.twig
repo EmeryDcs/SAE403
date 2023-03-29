@@ -1,0 +1,76 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Portfolio {% endblock %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/sass/portfolio.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="pagePortfolio">
+    <header>
+        <img src="{{asset('img/png/logo.png')}}" alt="Logo Portfolio">
+
+        <div class="menuMobile">
+            <img src="{{asset('img/png/menuMobile.png')}}" alt="Menu Mobile" id="menuMobile">
+            <img src="{{asset('img/png/croixMenuMobile.png')}}" alt="Menu Mobile" id="croixMenuMobile">
+        </div>
+        <nav>
+            <a href="{{path('portfolioall')}}">Portfolio</a>
+            <a href="{{path('app_register')}}">S'inscrire</a>
+            <a href="{{path('app_login')}}">Se connecter</a>
+        </nav>
+    </header>
+
+    <h1>Portfolios</h1>
+
+    <article class="projets">
+        {% for projet in projets %}
+            <section class="projet">
+                <p>{{projet.nom}}</p>
+                <p>{{projet.description}}</p>
+                <p>{{projet.annee}}</p>
+                <p>
+                {% if projet.acquis == 1 %}
+                    Acquis
+                {% elseif projet.acquis == 2 %}
+                    En cours d'acquisition
+                {% elseif projet.acquis == 3 %}
+                    Non acquis
+                {% endif %}
+                </p>  
+
+                <img src="{{asset('img/bddPhotoProjet/'~projet.photo)}}"/>
+
+                <div>
+                {% if projet.video %}
+                    {{video|raw}}
+                {% endif %}
+                </div>
+
+                <ul>
+                    {% for domaine in domaines[projet.id] %}
+                        <li>{{ domaine }}</li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    {% for competence in competences[projet.id] %}
+                        <li>{{ competence.nom }}</li>
+                    {% endfor %}
+                </ul>
+                <ul>
+                    {% for apprentissage in ac[projet.id] %}
+                        <li>{{ apprentissage.numero }}</li>
+                    {% endfor %}
+                </ul>
+
+                {% if formCommentaire is defined %}
+                    {{form(formCommentaire[projet.id])}}
+                {% endif %}
+            <section>
+        {% endfor %}
+    </article>
+</div>
+
+<script src="{{ asset('js/portfolio.js') }}">
+{% endblock %}

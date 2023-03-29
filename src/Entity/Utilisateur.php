@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Commentaire;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -36,13 +39,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_user')]
-    private ?Projet $projets = null;
-
-    #[ORM\ManyToOne(inversedBy: 'id_user')]
     private ?Note $notes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'id_user')]
-    private ?Commentaire $commentaires = null;
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Projet::class)]
+    private Collection $projets;
+
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commentaire::class, orphanRemoval: true)]
+    private Collection $commentaires;
+
+    public function __construct()
+    {
+        $this->projets = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -138,18 +147,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProjets(): ?Projet
-    {
-        return $this->projets;
-    }
-
-    public function setProjets(?Projet $projets): self
-    {
-        $this->projets = $projets;
-
-        return $this;
-    }
-
     public function getNotes(): ?Note
     {
         return $this->notes;
@@ -162,14 +159,62 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCommentaires(): ?Commentaire
+    /**
+     * @return Collection<int, Projet>
+     */
+    public function getProjets(): Collection
+    {
+        return $this->projets;
+    }
+
+    public function addProjet(Projet $projet): self
+    {
+        if (!$this->projets->contains($projet)) {
+            $this->projets->add($projet);
+            $projet->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjet(Projet $projet): self
+    {
+        if ($this->projets->removeElement($projet)) {
+            // set the owning side to null (unless already changed)
+            if ($projet->getUtilisateur() === $this) {
+                $projet->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
     {
         return $this->commentaires;
     }
 
-    public function setCommentaires(?Commentaire $commentaires): self
+    public function addCommentaire(Commentaire $commentaire): self
     {
-        $this->commentaires = $commentaires;
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getUtilisateur() === $this) {
+                $commentaire->setUtilisateur(null);
+            }
+        }
 
         return $this;
     }
