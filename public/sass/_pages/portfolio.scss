@@ -1,0 +1,38 @@
+.pagePortfolio{
+    header{
+        width:100vw;
+        height: 10vh;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 3rem;
+
+        img{
+            height: 100%;
+            margin: 5px 40px 0 30px;
+        }
+
+        nav{
+            display: none;
+        }
+
+        #menuMobile{
+            height: 8vh;
+        }
+
+        #croixMenuMobile{
+            display: none;
+            height: 8vh;
+        }
+    }
+
+    .projets{
+        width:80vw;
+        text-align: center;
+        margin:auto;
+
+        img {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "sae403",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "sass": "sass --watch public/sass/main.scss:./public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmeryDcs/SAE403.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmeryDcs/SAE403/issues"
+  },
+  "homepage": "https://github.com/EmeryDcs/SAE403#readme"
+}
