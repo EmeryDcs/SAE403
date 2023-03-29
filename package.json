@@ -1,7 +1,6 @@
 {
   "name": "sae403",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -18,5 +17,6 @@
   "bugs": {
     "url": "https://github.com/EmeryDcs/SAE403/issues"
   },
-  "homepage": "https://github.com/EmeryDcs/SAE403#readme"
+  "homepage": "https://github.com/EmeryDcs/SAE403#readme",
+  "description": ""
 }

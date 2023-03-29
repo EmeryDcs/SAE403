@@ -3,34 +3,19 @@
 {% block title %} Portfolio {% endblock %}
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/sass/portfolio.css') }}">
 {% endblock %}
 
 {% block body %}
 <div class="pagePortfolio">
-    <header>
-        <img src="{{asset('img/png/logo.png')}}" alt="Logo Portfolio">
-
-        <div class="menuMobile">
-            <img src="{{asset('img/png/menuMobile.png')}}" alt="Menu Mobile" id="menuMobile">
-            <img src="{{asset('img/png/croixMenuMobile.png')}}" alt="Menu Mobile" id="croixMenuMobile">
-        </div>
-        <nav>
-            <a href="{{path('portfolioall')}}">Portfolio</a>
-            <a href="{{path('app_register')}}">S'inscrire</a>
-            <a href="{{path('app_login')}}">Se connecter</a>
-        </nav>
-    </header>
-
     <h1>Portfolios</h1>
 
-    <article class="projets">
+    <section class="projets">
         {% for projet in projets %}
-            <section class="projet">
-                <p>{{projet.nom}}</p>
-                <p>{{projet.description}}</p>
-                <p>{{projet.annee}}</p>
-                <p>
+            <article class="projet">
+                <h2>{{projet.nom}}</h2>
+                <p><strong>Description du projet :</strong> {{projet.description}}</p>
+                <p><strong>Année :</strong> {{projet.annee}}</p>
+                <p><strong>Auto-évaluation :</strong>
                 {% if projet.acquis == 1 %}
                     Acquis
                 {% elseif projet.acquis == 2 %}
@@ -48,29 +33,52 @@
                 {% endif %}
                 </div>
 
+                <p><strong>Domaine(s) lié(s) au projet :</strong></p>
                 <ul>
                     {% for domaine in domaines[projet.id] %}
                         <li>{{ domaine }}</li>
                     {% endfor %}
                 </ul>
+                <p><strong>Compétence(s) liée(s) au projet :</strong></p>
                 <ul>
                     {% for competence in competences[projet.id] %}
                         <li>{{ competence.nom }}</li>
                     {% endfor %}
                 </ul>
+                <p><strong>AC(s) lié(s) au projet :</strong></p>
                 <ul>
                     {% for apprentissage in ac[projet.id] %}
                         <li>{{ apprentissage.numero }}</li>
                     {% endfor %}
                 </ul>
+                <p><strong>Commentaire(s) lié(s) au projet :</strong></p>
+                {% if commentaires[projet.id] is defined %}
+                    {% for commentaire in commentaires[projet.id] %}
+                        <div class="commentaire">
+                            <img src="{{asset('img/png/citation.png')}}" alt="Citation"/>
+                            {{ auteurCommentaire[commentaire.id].prenom }} {{ auteurCommentaire[commentaire.id].nom }}
+                            <p><strong>Commentaire :</strong></p>
+                            <p>{{commentaire.texte}}</p>
+                            <p><strong>Note :</strong> {{commentaire.note}}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Il n'y a aucun commentaire pour le moment.</p>
+                {% endif %}
 
                 {% if formCommentaire is defined %}
+                    <p><strong>Ajouter un commentaire :</strong></p>
+                    {# {{ form_start(formCommentaire[projet.id]) }}
+                        {{form_label(formCommentaire[projet.id].note)}}
+                        {{form_row(formCommentaire[projet.id].texte)}}
+                        {{form_label(formCommentaire[projet.id].note)}}
+                        {{form_row(formCommentaire[projet.id].texte)}}
+                    {{ form_end(formCommentaire[projet.id]) }} #}
+
                     {{form(formCommentaire[projet.id])}}
                 {% endif %}
-            <section>
+            <article>
         {% endfor %}
-    </article>
+    </section>
 </div>
-
-<script src="{{ asset('js/portfolio.js') }}">
 {% endblock %}

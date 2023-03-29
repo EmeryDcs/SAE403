@@ -16,6 +16,29 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <img src="{{asset('img/png/logo.png')}}" alt="Logo Portfolio">
+
+            <div class="menuMobile">
+                <img src="{{asset('img/png/menuMobile.png')}}" alt="Menu Mobile" id="menuMobile">
+                <img src="{{asset('img/png/croixMenuMobile.png')}}" alt="Menu Mobile" id="croixMenuMobile">
+            </div>
+            <nav id="navMenu" class="navMobile">
+                <a href="{{path('portfolioall')}}">Portfolio</a>
+                {% if not app.user %}
+                    <a href="{{path('app_register')}}">S'inscrire</a>
+                    <a href="{{path('app_login')}}">Se connecter</a>
+                {% endif %}
+            </nav>
+            <nav class="navDesktop">
+                <a href="{{path('portfolioall')}}">Portfolio</a>
+                {% if not app.user %}
+                    <a href="{{path('app_register')}}">S'inscrire</a>
+                    <a href="{{path('app_login')}}">Se connecter</a>
+                {% endif %}
+            </nav>
+        </header>
         {% block body %}{% endblock %}
+        <script src="{{ asset('js/portfolio.js') }}"/>
     </body>
 </html>

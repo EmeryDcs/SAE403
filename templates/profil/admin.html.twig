@@ -1,7 +1,9 @@
-{# templates/profil/admin.html.twig #}
-<link href="{{ asset('css/main.css') }}" rel="stylesheet" />
-<h1>Bienvenu {{prenom}}{{nom}}</h1>
-<p> Vous êtes connecté en tant qu'admin </p>
-<h3>Informations</h3>
-<p>{{email}}</p>
-<a href="{{ path('app_logout')}}">Se déconnecter</a>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bienvenu {{prenom}}{{nom}}</h1>
+    <p> Vous êtes connecté en tant qu'admin </p>
+    <h3>Informations</h3>
+    <p>{{email}}</p>
+    <a href="{{ path('app_logout')}}">Se déconnecter</a>
+{% endblock %}

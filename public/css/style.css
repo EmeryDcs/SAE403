@@ -1,5 +1,4 @@
-/* ---------- INIT */
-/* 
+/* ---------- INIT */ /* 
 
 font-weight: 100; ----- Thin (Hairline)
 font-weight: 200; ----- Extra Light (Ultra Light)
@@ -15,14 +14,25 @@ font-weight: 950; ----- Extra Black (Ultra Black)
 */
 /* ---------- BALISES HTML COMMUNES */
 * {
-  font-size: 1rem;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  font-size: 18px;
+  font-family: "Montserrat";
 }
 
-/* ---------- PAGES - structure */
-.pagePortfolio header {
+body {
+  background-color: rgba(180, 154, 252, 0.5);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+header {
   width: 100vw;
   height: 10vh;
   display: flex;
@@ -30,33 +40,190 @@ font-weight: 950; ----- Extra Black (Ultra Black)
   align-items: center;
   font-size: 3rem;
 }
-
-.pagePortfolio header img {
+header img {
   height: 100%;
-  margin: 5px 40px 0 30px;
+  margin: 20px 40px 0 30px;
 }
-
-.pagePortfolio header nav {
+header .navMobile {
+  display: none;
+  position: absolute;
+  background-color: rgba(180, 154, 252, 0.95);
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+}
+header .navMobile a {
+  margin: 20px;
+  font-size: 2.5rem;
+}
+header .navDesktop {
   display: none;
 }
-
-.pagePortfolio header #menuMobile {
-  height: 8vh;
+header .navDesktop a {
+  margin-right: 20px;
+  font-size: 1.75rem;
 }
-
-.pagePortfolio header #croixMenuMobile {
+header #menuMobile {
+  height: 8vh;
+  padding: 6px;
+  border-radius: 12px;
+  background-color: white;
+  opacity: 0.5;
+}
+header #croixMenuMobile {
   display: none;
+  position: relative;
   height: 8vh;
+  z-index: 999;
 }
 
+@media (min-width: 48rem) {
+  #menuMobile {
+    display: none;
+  }
+  header {
+    justify-content: space-between;
+  }
+  header .navDesktop {
+    display: block;
+  }
+}
+/* ---------- PAGES - structure */
+.pagePortfolio h1 {
+  text-align: center;
+}
 .pagePortfolio .projets {
   width: 80vw;
   text-align: center;
   margin: auto;
+  background-color: white;
+  border-radius: 15px;
+  padding: 5px;
 }
-
 .pagePortfolio .projets img {
   width: 100%;
+}
+.pagePortfolio .projets p, .pagePortfolio .projets ul {
+  text-align: left;
+}
+.pagePortfolio .commentaire {
+  position: relative;
+  background-color: lightgrey;
+  border-radius: 15px;
+  padding: 5px 10px 1px 10px;
+  margin-bottom: 20px;
+}
+.pagePortfolio .commentaire img {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  height: 30%;
+  width: auto;
+}
+.pagePortfolio #commentaire {
+  display: flex;
+  flex-direction: column;
+}
+.pagePortfolio #commentaire div {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.pagePortfolioEtudiant h1 {
+  text-align: center;
+}
+.pagePortfolioEtudiant .projets {
+  width: 80vw;
+  text-align: center;
+  margin: auto;
+  background-color: white;
+  border-radius: 15px;
+  padding: 5px;
+}
+.pagePortfolioEtudiant .projets img {
+  width: 100%;
+}
+.pagePortfolioEtudiant .projets p, .pagePortfolioEtudiant .projets ul {
+  text-align: left;
+}
+.pagePortfolioEtudiant .commentaire {
+  position: relative;
+  background-color: lightgrey;
+  border-radius: 15px;
+  padding: 5px 10px 1px 10px;
+  margin-bottom: 20px;
+}
+.pagePortfolioEtudiant .commentaire img {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  height: 30%;
+  width: auto;
+}
+
+.pageRegister form {
+  display: flex;
+  flex-direction: column;
+}
+.pageRegister form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.pageRegister form div label {
+  margin-bottom: 10px;
+}
+.pageRegister form div input {
+  height: 6vh;
+}
+.pageRegister form button {
+  height: 5vh;
+  margin-bottom: 10px;
+}
+
+.pageAjoutProjet {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pageAjoutProjet form {
+  width: 80vw;
+}
+.pageAjoutProjet form div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+}
+.pageAjoutProjet form div input, .pageAjoutProjet form div textarea, .pageAjoutProjet form div select {
+  width: 100%;
+  height: 6vh;
+}
+.pageAjoutProjet form .required {
+  font-weight: bold;
+}
+.pageAjoutProjet form .formCompetences, .pageAjoutProjet form .formAc, .pageAjoutProjet form .formDomaine {
+  margin-top: 10px;
+}
+.pageAjoutProjet form .formCompetences div, .pageAjoutProjet form .formAc div, .pageAjoutProjet form .formDomaine div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.pageAjoutProjet form .formCompetences div label, .pageAjoutProjet form .formAc div label, .pageAjoutProjet form .formDomaine div label {
+  min-width: 65%;
+}
+.pageAjoutProjet form .formCompetences div input, .pageAjoutProjet form .formAc div input, .pageAjoutProjet form .formDomaine div input {
+  height: 25px;
 }
 
 /*# sourceMappingURL=style.css.map */
