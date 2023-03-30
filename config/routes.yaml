@@ -27,10 +27,6 @@ competences:
     controller: App\Controller\CompetencesController::competences
     methods: GET
 
-# accueil:
-#     path: /accueil
-#     controller: App\Controller\HomeController::accueil
-
 prof:
     path: /prof
     controller: App\Controller\ProfilController::prof
