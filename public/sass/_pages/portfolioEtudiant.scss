@@ -1,4 +1,4 @@
-.pagePortfolio{
+.pagePortfolioEtudiant{
     h1{
         text-align: center;
     }
@@ -32,17 +32,6 @@
             right:10px;
             height:30%;
             width:auto;
-        }
-    }
-
-    #commentaire{
-        display: flex;
-        flex-direction: column;
-        div{
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
         }
     }
 }

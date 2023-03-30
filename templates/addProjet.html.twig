@@ -1,3 +1,34 @@
-<body>
-    {{form(form)}}
-</body>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="pageAjoutProjet">
+    {# {{form(form)}} #}
+    {{ form_start(form) }}
+        {{form_row(form.nom)}}
+        {{form_row(form.description)}}
+        {{form_row(form.annee)}}
+        <div class="formCompetences">
+        <label class="required">Compétences</label>
+            {% for competence in form.competences %}
+                {{form_row(competence)}}
+            {% endfor %}
+        </div>
+        <div class="formAc">
+        <label class="required">AC</label>
+            {% for ac in form.ac %}
+                {{form_row(ac)}}
+            {% endfor %}
+        </div>
+        {{form_row(form.acquis)}}
+        <div class="formDomaine">
+        <label class="required">Domaines</label>
+            {% for domaine in form.domaine %}
+                {{form_row(domaine)}}
+            {% endfor %}
+        </div>
+        {{form_row(form.photo)}}
+        {{form_row(form.video)}}
+        {{form_row(form.send)}}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

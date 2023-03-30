@@ -20,7 +20,7 @@ class CommentaireType extends AbstractType
             ->add('projet', HiddenType::class, [
                     'mapped'=>false,
                 ])
-            ->add('submit', SubmitType::class)
+            ->add('poster', SubmitType::class)
         ;
     }
 

@@ -1,0 +1,37 @@
+.pageAjoutProjet{
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    form{
+        width:80vw;
+        div{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 10px;
+            input, textarea, select{
+                width:100%;
+                height:6vh;
+            }
+        }
+        .required{
+            font-weight: bold;
+        }
+        .formCompetences, .formAc, .formDomaine{
+            margin-top: 10px;
+            div{
+                display: flex;
+                flex-direction: row;
+                justify-content:space-between;
+                margin-bottom: 10px;
+                label{
+                    min-width:65%;
+                }
+                input{
+                    height:25px;
+                }
+            }
+        }
+    }
+}

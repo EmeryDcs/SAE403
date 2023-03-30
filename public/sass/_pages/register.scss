@@ -1,0 +1,21 @@
+.pageRegister{
+    form{
+        display: flex;
+        flex-direction: column;
+        div{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            label{
+                margin-bottom: 10px;
+            }
+            input{
+                height:6vh;
+            }
+        }
+        button{
+            height:5vh;
+            margin-bottom: 10px;
+        }
+    }
+}
