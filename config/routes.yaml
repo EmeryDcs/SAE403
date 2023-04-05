@@ -33,11 +33,12 @@ prof:
 
 addprojet:
     path: /addprojet
-    controller: App\Controller\ProjetController::formProjet
+    controller: App\Controller\AddprojetController.php::formProjet
 
 portfolioall:
-    path: /portfolio
-    controller: App\Controller\PortfolioController::accueil
+    path: /api/portfolio
+    controller: App\Controller\ProjetController::projet
+    methods: GET
 
 portfoliosingle:
     path: /portfolio/{id}

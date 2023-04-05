@@ -85,32 +85,54 @@ class PortfolioController extends AbstractController
         // Construire la balise HTML d'intégration
         $embed_html = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $video_id . '" frameborder="0" allowfullscreen></iframe>';
 
+        // if (isset($formCommentaire)){
+        //     return $this->render(
+        //         'portfolio.html.twig',
+        //         [
+        //             'projets'=>$projets,
+        //             'competences'=>$competences,
+        //             'ac'=>$ac,
+        //             'domaines'=>$domaines,
+        //             'video'=>$embed_html,
+        //             'commentaires'=>$commentairesProjet,
+        //             'auteurCommentaire'=>$auteurCommentaire,
+        //             'formCommentaire'=>$vuesCommentaires,
+        //         ]
+        //     );
+        // } else {
+        //     return $this->render(
+        //         'portfolio.html.twig',
+        //         [
+        //             'projets'=>$projets,
+        //             'competences'=>$competences,
+        //             'ac'=>$ac,
+        //             'domaines'=>$domaines,
+        //             'video'=>$embed_html,
+        //         ]
+        //     );
+        // }
+
         if (isset($formCommentaire)){
-            return $this->render(
-                'portfolio.html.twig',
-                [
-                    'projets'=>$projets,
-                    'competences'=>$competences,
-                    'ac'=>$ac,
-                    'domaines'=>$domaines,
-                    'video'=>$embed_html,
-                    'commentaires'=>$commentairesProjet,
-                    'auteurCommentaire'=>$auteurCommentaire,
-                    'formCommentaire'=>$vuesCommentaires,
-                ]
-            );
-        } else {
-            return $this->render(
-                'portfolio.html.twig',
-                [
-                    'projets'=>$projets,
-                    'competences'=>$competences,
-                    'ac'=>$ac,
-                    'domaines'=>$domaines,
-                    'video'=>$embed_html,
-                ]
-            );
+            $data = [
+                'projets'=>$projets,
+                'competences'=>$competences,
+                'ac'=>$ac,
+                'domaines'=>$domaines,
+                'video'=>$embed_html,
+                'commentaires'=>$commentairesProjet,
+                'auteurCommentaire'=>$auteurCommentaire,
+                'formCommentaire'=>$vuesCommentaires
+            ];
+        }else{
+            $data = [
+                'projets'=>$projets,
+                'competences'=>$competences,
+                'ac'=>$ac,
+                'domaines'=>$domaines,
+                'video'=>$embed_html
+            ];
         }
+        return new JsonResponse($data);
     }   
 
     public function afficheProjetUtilisateur(ManagerRegistry $doctrine, Request $request, $id){
