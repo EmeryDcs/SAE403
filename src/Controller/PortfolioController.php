@@ -163,7 +163,7 @@ class PortfolioController extends AbstractController
     
                         //Je stocke le projet courant dans mon commentaire
                         $commentaires[$projet->getId()]->setProjet(
-                            $repository->findOneBy(['id'=>$formCommentaire->get('projet')->getData()])
+                            $repositoryProjets->findOneBy(['id'=>$formCommentaire->get('projet')->getData()])
                         );
             
                         $em = $doctrine->getManager();
