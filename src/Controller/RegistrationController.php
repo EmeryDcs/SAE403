@@ -16,35 +16,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new Utilisateur();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $data = json_decode($request->getContent(), true);
+        $user->setNom($data['nom']);
+        $user->setPrenom($data['prenom']);
+        $user->setEmail($data['email']);
+        $user->setRoles(["ROLE_USER"]);
+        $user->setPassword(
+            $userPasswordHasher->hashPassword(
+                $user, $data['password']
+            )
+        );
+        
+        $entityManager->persist($user);
+        $entityManager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setRoles($form->get('Roles')->getData());
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
-        }
-
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return new Response('user create');
     }
 }

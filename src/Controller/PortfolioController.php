@@ -12,6 +12,7 @@ use App\Entity\Utilisateur;
 
 class PortfolioController extends AbstractController
 {
+    //affiche TOUS les projets
     public function accueil(ManagerRegistry $doctrine, Request $request){
         //Ici on récupère l'entiereté du talbeau Projet
         $repository = $doctrine->getRepository(Projet::class);
@@ -135,6 +136,7 @@ class PortfolioController extends AbstractController
         return new JsonResponse($data);
     }   
 
+    // affiche TOUS les projets d'un utilisateur
     public function afficheProjetUtilisateur(ManagerRegistry $doctrine, Request $request, $id){
         $repositoryProjets = $doctrine->getRepository(Projet::class);
         $projets = $repositoryProjets->findBy(['utilisateur'=>$id]);

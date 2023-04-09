@@ -12,10 +12,10 @@ api_login_check:
 app_logout:
     path: /logout
 
-app_register:
-    path: /register
+api_register:
+    path: /api/register
     controller: App\Controller\RegistrationController::register
-
+    methods: POST
 
 etudiant:
     path: /api/etudiant
@@ -25,6 +25,16 @@ etudiant:
 competences:
     path: /api/competences
     controller: App\Controller\CompetencesController::competences
+    methods: GET
+
+utilisateur:
+    path: /api/utilisateur
+    controller: App\Controller\UtilisateurController::utilisateur
+    methods: GET
+
+utilisateurprojet:
+    path: /api/utilisateurprojet
+    controller: App\Controller\UtilisateurController::utilisateurprojet
     methods: GET
 
 prof:
@@ -37,16 +47,46 @@ addprojet:
 
 portfolioall:
     path: /api/portfolio
+    controller: App\Controller\ProjetController::allprojet
+    methods: GET
+
+portfoliosinlge:
+    path: /api/portfolio/{id}
     controller: App\Controller\ProjetController::projet
     methods: GET
 
-portfoliosingle:
-    path: /portfolio/{id}
-    controller: App\Controller\PortfolioController::afficheProjetUtilisateur
+# portfoliosingle:
+#     path: /portfolio/{id}
+#     controller: App\Controller\PortfolioController::afficheProjetUtilisateur
 
 admin:
     path: /admin
     controller: App\Controller\ProfilController::admin
+
+api_delete_user:
+    path: api/deleteuser/{id}
+    controller: App\Controller\DeleteController::delete
+    methods: DELETE
+
+api_delete_projet:
+    path: api/deleteprojet/{id}
+    controller: App\Controller\DeleteController::deleteprojet
+    methods: DELETE
+
+api_delete_comm:
+    path: api/deletecomm/{id}
+    controller: App\Controller\DeleteController::deletecomm
+    methods: DELETE
+
+api_profil:
+    path: api/username/{email}
+    controller: App\Controller\UtilisateurController::getusername
+    methods: GET
+
+commentaire:
+    path: api/commentaire
+    controller: App\Controller\CommentaireController::commentaire
+    methods: GET
 
 app.swagger:
     path: /api/doc

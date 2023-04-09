@@ -17,5 +17,4 @@ class CompetencesController extends AbstractController
         $result = $repository->getArrayResult();
         return new JsonResponse($result);
     }
- 
 }
