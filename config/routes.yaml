@@ -37,6 +37,11 @@ utilisateurprojet:
     controller: App\Controller\UtilisateurController::utilisateurprojet
     methods: GET
 
+utilisateurid:
+    path: /api/utilisateurid/{id}
+    controller: App\Controller\UtilisateurController::utilisateurid
+    methods: GET
+
 prof:
     path: /prof
     controller: App\Controller\ProfilController::prof
@@ -52,8 +57,19 @@ portfolioall:
 
 portfoliosinlge:
     path: /api/portfolio/{id}
+    controller: App\Controller\ProjetController::projets
+    methods: GET
+
+projet:
+    path: /api/projet/{userid}/{projetid}
     controller: App\Controller\ProjetController::projet
     methods: GET
+
+projetcomm:
+    path: /api/commprojet/{projetid}
+    controller: App\Controller\ProjetController::projetcomm
+    methods: GET
+
 
 # portfoliosingle:
 #     path: /portfolio/{id}
@@ -83,10 +99,27 @@ api_profil:
     controller: App\Controller\UtilisateurController::getusername
     methods: GET
 
+
+commentaires:
+    path: api/commentaires
+    controller: App\Controller\CommentaireController::commentaires
+    methods: GET
+
+
 commentaire:
-    path: api/commentaire
+    path: api/commentaire/{id}
     controller: App\Controller\CommentaireController::commentaire
     methods: GET
+
+commentaireprojet:
+    path: api/commentaireprojet/{projetid}
+    controller: App\Controller\CommentaireController::commentaireprojet
+    methods: GET
+
+addcommentaire:
+    path: api/addcommentaire
+    controller: App\Controller\CommentaireController::addCommentaire
+    methods: POST
 
 app.swagger:
     path: /api/doc

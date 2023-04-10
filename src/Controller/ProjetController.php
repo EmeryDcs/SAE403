@@ -23,7 +23,7 @@ class ProjetController extends AbstractController
         return new JsonResponse($result);
     }
 
-    public function projet(EntityManagerInterface $em, $id){
+    public function projets(EntityManagerInterface $em, $id){
         $qb = $em->createQueryBuilder();
 
         $qb->select('p', 'u')
@@ -43,6 +43,10 @@ class ProjetController extends AbstractController
                     'id' => $projet->getId(),
                     'nom' => $projet->getNom(),
                     'description' => $projet->getDescription(),
+                    'domaine' => $projet->getDomaine(),
+                    'acquis' => $projet->getAcquis(),
+                    'annee' => $projet->getAnnee(),
+                    'photo' => $projet->getPhoto(),
                     'utilisateur' => [
                         'id' => $utilisateur->getId(),
                         'prenom' => $utilisateur->getPrenom(),
@@ -55,5 +59,82 @@ class ProjetController extends AbstractController
         }
 
         return new JsonResponse($projetsAvecUtilisateurs);
+    }
+
+    public function projet(EntityManagerInterface $em, $userid, $projetid)
+    {
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('p', 'u')
+            ->from(Projet::class, 'p')
+            ->leftJoin('p.utilisateur', 'u')
+            ->where('u.id = :userid')
+            ->andWhere('p.id = :projetid')
+            ->setParameter('userid', $userid)
+            ->setParameter('projetid', $projetid);
+
+        $query = $qb->getQuery();
+        $projet = $query->getOneOrNullResult();
+
+        if (!$projet) {
+            return new JsonResponse(['message' => 'Le projet avec l\'ID ' . $projetid . ' n\'existe pas pour l\'utilisateur avec l\'ID ' . $userid]);
+        }
+
+        $utilisateur = $projet->getUtilisateur();
+        $projetAvecUtilisateur = [
+            'id' => $projet->getId(),
+            'nom' => $projet->getNom(),
+            'description' => $projet->getDescription(),
+            'domaine' => $projet->getDomaine(),
+            'acquis' => $projet->getAcquis(),
+            'annee' => $projet->getAnnee(),
+            'photo' => $projet->getPhoto(),
+            'utilisateur' => [
+                'id' => $utilisateur->getId(),
+                'prenom' => $utilisateur->getPrenom(),
+                'nom' => $utilisateur->getNom(),
+                'email' => $utilisateur->getEmail(),
+            ],
+        ];
+
+        return new JsonResponse($projetAvecUtilisateur);
+    }
+
+    public function projetcomm(EntityManagerInterface $em, $projetid){
+    {
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('p', 'u')
+            ->from(Projet::class, 'p')
+            ->leftJoin('p.utilisateur', 'u')
+            ->where('p.id = :projetid')
+            ->setParameter('projetid', $projetid);
+
+        $query = $qb->getQuery();
+        $projet = $query->getOneOrNullResult();
+
+        if (!$projet) {
+            return new JsonResponse(['message' => 'Le projet avec l\'ID ' . $projetid . ' n\'existe pas']);
+        }
+
+        $utilisateur = $projet->getUtilisateur();
+        $projetAvecUtilisateur = [
+            'id' => $projet->getId(),
+            'nom' => $projet->getNom(),
+            'description' => $projet->getDescription(),
+            'domaine' => $projet->getDomaine(),
+            'acquis' => $projet->getAcquis(),
+            'annee' => $projet->getAnnee(),
+            'photo' => $projet->getPhoto(),
+            'utilisateur' => [
+                'id' => $utilisateur->getId(),
+                'prenom' => $utilisateur->getPrenom(),
+                'nom' => $utilisateur->getNom(),
+                'email' => $utilisateur->getEmail(),
+            ],
+        ];
+
+        return new JsonResponse($projetAvecUtilisateur);
+    }
     }
 }

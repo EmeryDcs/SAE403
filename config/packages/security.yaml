@@ -17,11 +17,35 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure 
+        api_register:
+            pattern: ^/api/register
+            stateless: true
         portfolio:
             pattern: ^/api/portfolio
             stateless: true
+        projet:
+            pattern: ^/api/projet
+            stateless: true
         utilisateurprojet:
             pattern: ^/api/utilisateurprojet
+            stateless: true
+        utilisateurid:
+            pattern: ^/api/utilisateurid
+            stateless: true
+        api_profil:
+            pattern: ^/api/username
+            stateless: true
+        commentaire:
+            pattern: ^/api/commentaire
+            stateless: true
+        commentaireprojet:
+            pattern: ^/api/commentaireprojet
+            stateless: true
+        projetcomm:
+            pattern: ^/api/commprojet
+            stateless: true
+        addcommentaire:
+            pattern: ^/api/addcommentaire
             stateless: true
 
         api:
@@ -34,6 +58,13 @@ security:
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/portfolio, roles: PUBLIC_ACCESS }
         - { path: ^/api/utilisateurprojet, roles: PUBLIC_ACCESS }
+        - { path: ^/api/utilisateurid, roles: PUBLIC_ACCESS }
+        - { path: ^/api/projet, roles: PUBLIC_ACCESS }
+        - { path: ^/api/username, roles: PUBLIC_ACCESS }
+        - { path: ^/api/commentaire, roles: PUBLIC_ACCESS }
+        - { path: ^/api/commentaireprojet, roles: PUBLIC_ACCESS }
+        - { path: ^/api/commprojet, roles: PUBLIC_ACCESS }
+        - { path: ^/api/addcommentaire, roles: PUBLIC_ACCESS }
         - { path: ^/api/,       roles: IS_AUTHENTICATED_FULLY }
         
         

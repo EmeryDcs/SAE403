@@ -48,37 +48,34 @@ class UtilisateurController extends AbstractController
         return new JsonResponse($users);
     }
 
-
-    // public function getusername(EntityManagerInterface $entityManager, $email): JsonResponse
-    // {
-    //     $qb = $entityManager->createQueryBuilder();
-
-    //     $qb->select('u.nom', 'u.prenom')
-    //         ->from(Utilisateur::class, 'u')
-    //         ->where('u.email = :email')
-    //         ->setParameter('email', $email);
-
-    //     $result = $qb->getQuery()->getOneOrNullResult();
-
-    //     if (!$result) {
-    //         return new JsonResponse(['error' => 'User not found.'], 404);
-    //     }
-
-    //     return new JsonResponse($result);
-    // }
-
-    public function getusername(EntityManagerInterface $entityManager,string $email): JsonResponse
+    public function utilisateurid(EntityManagerInterface $em, $id)
     {
-        $utilisateur = $entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
+        $qb = $em->createQueryBuilder();
 
-        if (!$utilisateur) {
-            return new JsonResponse(['error' => 'User not found.'], 404);
-        }
+        $qb->select('u')
+            ->from(Utilisateur::class, 'u')
+            ->where('u.id LIKE :id')
+            ->setParameter('id', $id);
 
-        $nom = $utilisateur->getNom();
-        $prenom = $utilisateur->getPrenom();
+        $query = $qb->getQuery();
+        $users = $query->getArrayResult();
 
-        return new JsonResponse([['nom' => $nom, 'prenom' => $prenom]]);
+        return new JsonResponse($users);
+    }
+
+    public function getusername(EntityManagerInterface $em,string $email): JsonResponse
+    {
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('u')
+            ->from(Utilisateur::class, 'u')
+            ->where('u.email LIKE :email')
+            ->setParameter('email', $email);
+
+        $query = $qb->getQuery();
+        $user = $query->getArrayResult();
+
+        return new JsonResponse($user);
     }
 
 }

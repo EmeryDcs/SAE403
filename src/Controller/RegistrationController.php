@@ -33,6 +33,6 @@ class RegistrationController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new Response('user create');
+        return new Response("200");
     }
 }
