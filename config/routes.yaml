@@ -43,7 +43,7 @@ prof:
 
 addprojet:
     path: /addprojet
-    controller: App\Controller\AddprojetController.php::formProjet
+    controller: App\Controller\AddprojetController::formProjet
 
 portfolioall:
     path: /api/portfolio
@@ -87,6 +87,11 @@ commentaire:
     path: api/commentaire
     controller: App\Controller\CommentaireController::commentaire
     methods: GET
+
+api_addCommentaire:
+    path: api/addCommentaire
+    controller: App\Controller\CommentaireController:addCommentaire
+    methods: POST
 
 app.swagger:
     path: /api/doc
